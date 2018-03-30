@@ -1,6 +1,6 @@
 /* ============================================================
- * node-okex-api
- https://github.com/ZhiweiWang/node-okex-api
+ * node-zb-api
+ https://github.com/ZhiweiWang/node-zb-api
  * ============================================================
  * Copyright 2018-, Zhiwei Wang
  * Released under the GPL 3.0 License
