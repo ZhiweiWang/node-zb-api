@@ -10,15 +10,13 @@ module.exports = (function() {
     "use strict";
     const WebSocket = require("ws");
     const request = require("request");
-    const crypto = require("crypto");
     const file = require("fs");
     const stringHash = require("string-hash");
-    const md5 = require("md5");
     const _ = require("underscore");
     const util = require("util");
     const VError = require("verror");
-    const base = "http://api.zb.com/data/v1/";
-    const stream = "wss://api.zb.com:9999/websocket";
+    const base = "http://api.bitkk.com/data/v1/";
+    const stream = "wss://api.bitkk.com:9999/websocket";
     const userAgent =
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36";
     const contentType = "text/javascript";
@@ -36,10 +34,10 @@ module.exports = (function() {
     let socketHeartbeatInterval;
 
     const publicRequest = function(method, params, callback) {
-        var functionName = "publicRequest()";
+        let functionName = "publicRequest()";
 
         if (!_.isObject(params)) {
-            var error = new VError(
+            let error = new VError(
                 "%s second parameter %s must be an object. If no params then pass an empty object {}",
                 functionName,
                 params
@@ -48,16 +46,16 @@ module.exports = (function() {
         }
 
         if (!callback || typeof callback != "function") {
-            var error = new VError(
+            let error = new VError(
                 "%s third parameter needs to be a callback function with err and data parameters",
                 functionName
             );
             return callback(error);
         }
 
-        var url = `${base}${method}`;
+        let url = `${base}${method}`;
 
-        var req_options = {
+        let req_options = {
             url: url,
             method: "GET",
             headers: {
@@ -69,7 +67,7 @@ module.exports = (function() {
             json: {} // request will parse the json response into an object
         };
 
-        var requestDesc = util.format(
+        let requestDesc = util.format(
             "%s request to url %s with parameters %s",
             req_options.method,
             req_options.url,
@@ -80,10 +78,10 @@ module.exports = (function() {
     };
 
     const executeRequest = function(req_options, requestDesc, callback) {
-        var functionName = "executeRequest()";
+        let functionName = "executeRequest()";
 
         request(req_options, function(err, response, data) {
-            var error = null, // default to no errors
+            let error = null, // default to no errors
                 returnObject = data;
 
             if (err) {
@@ -114,7 +112,7 @@ module.exports = (function() {
             }
 
             if (_.has(returnObject, "error_code")) {
-                var errorMessage = mapErrorMessage(returnObject.error_code);
+                let errorMessage = mapErrorMessage(returnObject.error_code);
 
                 error = new VError(
                     '%s %s returned error code %s, message: "%s"',
@@ -136,7 +134,7 @@ module.exports = (function() {
      * @return {String}                error message
      */
     const mapErrorMessage = function(error_code) {
-        var errorCodes = {
+        let errorCodes = {
             1000: "调用成功",
             1001: "一般错误提示",
             1002: "内部错误",
