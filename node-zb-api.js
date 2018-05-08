@@ -226,7 +226,7 @@ module.exports = (function() {
     };
     const subscribe = function(endpoint, callback, reconnect = false, opened_callback = false) {
         if (options.verbose) options.log("Subscribed to " + endpoint);
-        const ws = new WebSocket(stream);
+        const ws = new WebSocket(stream, { rejectUnauthorized: false });
         ws.reconnect = options.reconnect;
         ws.endpoint = endpoint;
         ws.isAlive = false;
@@ -245,7 +245,7 @@ module.exports = (function() {
     };
     const subscribeCombined = function(streams, callback, reconnect = false, opened_callback = false) {
         const queryParams = streams.join("/");
-        const ws = new WebSocket(stream);
+        const ws = new WebSocket(stream, { rejectUnauthorized: false });
         ws.reconnect = options.reconnect;
         ws.endpoint = stringHash(queryParams);
         ws.streams = streams;
@@ -279,7 +279,7 @@ module.exports = (function() {
 
     const isArrayUnique = function(array) {
         let s = new Set(array);
-        return s.size == array.length;
+        return s.size === array.length;
     };
     ////////////////////////////
     return {
